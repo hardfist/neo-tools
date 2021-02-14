@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "checkJs": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "lib": [
+      "DOM"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src",
+    "types"
+  ]
+}

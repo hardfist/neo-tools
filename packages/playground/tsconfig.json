@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "useDefineForClassFields": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "strict": true
+  }
+}

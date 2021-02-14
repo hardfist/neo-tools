@@ -1,2 +1,3 @@
-# neo
-build tools
+# neotools
+
+build everything on esbuild

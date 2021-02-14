@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./browser/bundle.js"></script>
+    <script>
+      async function main() {
+        const json = {
+          'src/index.js': `import { answer } from './lib';console.log('answer', answer);`,
+          'src/lib.js': `export const answer = 42;import lodash from 'lodash'; console.log(lodash)`,
+        };
+        const result = await globalThis.bundler.compileMemfs(json);
+        console.log('bundler:', result);
+      }
+      main();
+    </script>
+  </body>
+</html>
