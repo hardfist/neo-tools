@@ -1,8 +1,8 @@
 {
   "name": "@neo-tools/playground",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
-  "main": "index.js",
+  "main": "public/index.html",
   "files": [
     "public",
     "src"

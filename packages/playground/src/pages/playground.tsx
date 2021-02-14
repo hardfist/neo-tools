@@ -16,7 +16,7 @@ const initialFiles = {
   import answer from 'the-answer';
   import * as lib from './lib';
   console.log('lib:',lib);
-  console.log('answer:',answer);
+  console.log('answer:',answer,react);
   `,
   'lib.js': `export const answer = 42`,
   'style.css': 'text\n{ color: red}',
