@@ -12,7 +12,7 @@ async function main() {
     entryPoints: [path.join(__dirname, '../src/index.tsx')],
     outdir,
     watch: argv.watch,
-    sourcemap: 'inline',
+    sourcemap: 'external',
     logLevel: 'error',
     errorLimit: 1,
     bundle: true,
