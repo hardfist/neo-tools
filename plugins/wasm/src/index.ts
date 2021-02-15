@@ -7,15 +7,6 @@ export const wasm = (): Plugin => {
   return {
     name: 'wasm',
     setup(build) {
-      // convert wasm import from your code to wasm virtual module
-      build.onResolve({ filter: /\.wasm$/ }, (args) => {
-        if (args.importer.endsWith('.ts')) {
-          return {
-            path: path.isAbsolute(args.path) ? args.path : path.join(args.resolveDir, args.path),
-            namespace: wasmVirtual,
-          };
-        }
-      });
       // load wasm proxy virutal module
       build.onLoad({ filter: /.*/, namespace: wasmVirtual }, (args) => {
         return {
@@ -38,6 +29,15 @@ export const wasm = (): Plugin => {
           contents: await fs.promises.readFile(args.path),
           loader: 'binary',
         };
+      });
+      // convert wasm import from your code to wasm virtual module
+      build.onResolve({ filter: /\.wasm$/ }, (args) => {
+        if (args.importer.endsWith('.ts')) {
+          return {
+            path: path.isAbsolute(args.path) ? args.path : path.join(args.resolveDir, args.path),
+            namespace: wasmVirtual,
+          };
+        }
       });
     },
   };

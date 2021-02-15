@@ -1,6 +1,7 @@
 import sample from './sample.wasm';
-async function main(): Promise<void> {
+
+(async () => {
   const sample_module = await sample();
-  console.log(sample_module.main());
-}
-main();
+  const result = sample_module.main();
+  return result;
+})();
