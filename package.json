@@ -4,7 +4,8 @@
   "description": "build tools",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .ts \"packages/**/*.{ts,js}\""
+    "lint": "eslint --ext .ts \"packages/**/*.{ts,js}\"",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -17,11 +18,20 @@
     "url": "https://github.com/hardfist/neo/issues"
   },
   "homepage": "https://github.com/hardfist/neo#readme",
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "esbuild-register"
+    ]
+  },
   "devDependencies": {
     "@neotools/bundler": "workspace:*",
     "@types/node": "^14.14.20",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
+    "ava": "^3.15.0",
     "esbuild": "0.8.45",
     "esbuild-register": "^1.2.1",
     "eslint": "^7.17.0",
