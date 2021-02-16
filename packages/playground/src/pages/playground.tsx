@@ -7,8 +7,8 @@ import { Row, Col } from '../components/grid';
 import { toJS, makeAutoObservable, autorun, reaction } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
-
 import { ListItem } from '../components/list';
+import '../utils/worker';
 const initialFiles = {
   'main.js': `
   import './style.css'
