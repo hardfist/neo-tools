@@ -12,3 +12,8 @@ declare module 'fn:.*' {
   const result: number;
   export default result;
 }
+
+declare module 'raw:.*' {
+  const result: string;
+  export default result;
+}

@@ -7,19 +7,16 @@ import { Row, Col } from '../components/grid';
 import { toJS, makeAutoObservable, autorun, reaction } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
+import _mainjs from 'raw:../examples/main.js';
+import _lib from 'raw:../examples/lib.js';
+import _style from 'raw:../examples/style.css';
 import { ListItem } from '../components/list';
 import '../utils/worker';
+console.log('style:', _style);
 const initialFiles = {
-  'main.js': `
-  import './style.css'
-  import react from 'https://unpkg.com/react@17.0.1/index.js'
-  import answer from 'the-answer';
-  import * as lib from './lib';
-  console.log('lib:',lib);
-  console.log('answer:',answer,react);
-  `,
-  'lib.js': `export const answer = 42`,
-  'style.css': 'text\n{ color: red}',
+  'main.js': _mainjs,
+  'lib.js': _lib,
+  'style.css': _style,
 };
 type CompileResultType = '.js' | '.css';
 const playground = makeAutoObservable({

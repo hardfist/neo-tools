@@ -45178,6 +45178,15 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   // src/pages/playground.tsx
   var import_path_browserify = __toModule(require_path_browserify2());
 
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/main.js
+  var main_default = "import './style.css';\nimport react from 'https://unpkg.com/react@17.0.1/index.js';\nimport answer from 'the-answer';\nimport * as lib from './lib';\nconsole.log('lib:', lib);\nconsole.log('answer:', answer, react);\n";
+
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.js
+  var lib_default = "export const answer = 42;\n";
+
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css
+  var _default = {};
+
   // worker:/Users/admin/github/neo/packages/playground/src/worker/add.ts
   var blob = new Blob(['// src/worker/add.ts\nself.addEventListener("message", (event) => {\n  const [a, b] = event.data;\n  self.postMessage(a + b);\n});\n'], {type: "text/javascript"});
   var add_default = () => {
@@ -45199,17 +45208,11 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
 
   // src/pages/playground.tsx
+  console.log("style:", _default);
   var initialFiles = {
-    "main.js": `
-  import './style.css'
-  import react from 'https://unpkg.com/react@17.0.1/index.js'
-  import answer from 'the-answer';
-  import * as lib from './lib';
-  console.log('lib:',lib);
-  console.log('answer:',answer,react);
-  `,
-    "lib.js": `export const answer = 42`,
-    "style.css": "text\n{ color: red}"
+    "main.js": main_default,
+    "lib.js": lib_default,
+    "style.css": _default
   };
   var playground = makeAutoObservable({
     files: initialFiles,
