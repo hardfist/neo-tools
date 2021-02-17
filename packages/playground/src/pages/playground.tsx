@@ -7,10 +7,11 @@ import { Row, Col } from '../components/grid';
 import { toJS, makeAutoObservable, autorun, reaction } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
+import { ListItem } from '../components/list';
 import _mainjs from 'raw:../examples/main.js';
 import _lib from 'raw:../examples/lib.js';
-import _style from 'raw:../examples/style.css';
-import { ListItem } from '../components/list';
+import _style from 'raw:../examples/style.css?';
+
 import '../utils/worker';
 console.log('style:', _style);
 const initialFiles = {

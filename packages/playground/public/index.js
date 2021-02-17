@@ -45184,8 +45184,8 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.js
   var lib_default = "export const answer = 42;\n";
 
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css
-  var _default = {};
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css?
+  var style_default = "text {\n  color: red;\n}\n";
 
   // worker:/Users/admin/github/neo/packages/playground/src/worker/add.ts
   var blob = new Blob(['// src/worker/add.ts\nself.addEventListener("message", (event) => {\n  const [a, b] = event.data;\n  self.postMessage(a + b);\n});\n'], {type: "text/javascript"});
@@ -45208,11 +45208,11 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
 
   // src/pages/playground.tsx
-  console.log("style:", _default);
+  console.log("style:", style_default);
   var initialFiles = {
     "main.js": main_default,
     "lib.js": lib_default,
-    "style.css": _default
+    "style.css": style_default
   };
   var playground = makeAutoObservable({
     files: initialFiles,
