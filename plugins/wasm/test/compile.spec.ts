@@ -1,9 +1,8 @@
 import test from 'ava';
 import path from 'path';
 import vm from 'vm';
-import { build, BuildIncremental, BuildResult } from 'esbuild';
+import { build } from 'esbuild';
 import { wasm } from '../src/index';
-const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor;
 
 test('simple wasm', async (t) => {
   const result = await build({

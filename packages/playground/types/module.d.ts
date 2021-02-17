@@ -7,3 +7,8 @@ declare module 'worker:.*' {
   function worker(): Worker;
   export default worker;
 }
+
+declare module 'fn:.*' {
+  const result: number;
+  export default result;
+}

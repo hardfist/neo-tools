@@ -45185,6 +45185,12 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     return worker2;
   };
 
+  // fn:/Users/admin/github/neo/packages/playground/src/worker/fib.ts
+  var fib_default = 13;
+
+  // src/utils/fn.ts
+  console.log("fib5:", fib_default);
+
   // src/utils/worker.ts
   var worker = add_default();
   worker.postMessage([2, 3]);

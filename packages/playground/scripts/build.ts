@@ -1,6 +1,8 @@
 import * as esbuild from 'esbuild';
 import path from 'path';
 import minimist from 'minimist';
+import fs from 'fs';
+import vm from 'vm';
 import liveServer from 'live-server';
 import { pluginPostcss } from './plugins/postcss';
 async function main() {
@@ -26,6 +28,33 @@ async function main() {
     },
     plugins: [
       pluginPostcss(),
+      {
+        name: 'fn',
+        setup(build) {
+          build.onResolve({ filter: /^fn:/ }, (args) => {
+            const realPath = args.path.replace(/^fn:/, '');
+            const [fnPath, n] = realPath.split('?');
+            return {
+              namespace: 'fn',
+              path: path.isAbsolute(fnPath) ? fnPath : path.join(args.resolveDir, fnPath),
+              pluginData: {
+                n,
+              },
+            };
+          });
+          build.onLoad({ filter: /.*/, namespace: 'fn' }, async (args) => {
+            const code = (await fs.promises.readFile(args.path)).toString();
+            const context = {};
+            vm.createContext(context);
+            const fn = await vm.runInContext(code, context);
+            const result = fn(args.pluginData.n);
+            return {
+              contents: `export default ${result}`,
+              loader: 'ts',
+            };
+          });
+        },
+      },
       {
         name: 'worker',
         setup(build) {
