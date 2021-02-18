@@ -41,14 +41,12 @@ export const pluginMemfs = (context: Compiler): Plugin => {
         realPath = resolvePath;
 
         const content = (await context.options.fileSystem.promises.readFile(realPath)).toString();
-        const loader = realPath.endsWith('.js') ? 'ts' : 'css';
-
         return {
           contents: content,
           pluginData: {
             importer: realPath,
           },
-          loader,
+          loader: path.extname(realPath).slice(1),
         };
       });
     },

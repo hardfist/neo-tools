@@ -2,28 +2,29 @@ import { FileTree } from '../components/filetree';
 import { Editor } from '../components/editor';
 import React, { Fragment, useEffect } from 'react';
 import { Nav } from '../components/nav';
+import { css } from '@emotion/react';
 import { compileMemfs } from '@neotools/bundler';
 import { Row, Col } from '../components/grid';
-import { toJS, makeAutoObservable, autorun, reaction } from 'mobx';
+import { toJS, makeAutoObservable, autorun, reaction, action } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
 import { ListItem } from '../components/list';
-import _mainjs from 'raw:../examples/main.js';
-import _lib from 'raw:../examples/lib.js';
+import _mainjs from 'raw:../examples/main.tsx';
+import _lib from 'raw:../examples/lib.ts';
 import _style from 'raw:../examples/style.css?';
 
 import '../utils/worker';
 console.log('style:', _style);
 const initialFiles = {
-  'main.js': _mainjs,
-  'lib.js': _lib,
+  'main.tsx': _mainjs,
+  'lib.tsx': _lib,
   'style.css': _style,
 };
-type CompileResultType = '.js' | '.css';
+type CompileResultType = '.js' | '.css' | '.result';
 const playground = makeAutoObservable({
   files: initialFiles as Record<string, string>,
   selected: Object.keys(initialFiles)[0] ?? '',
-  selectedResult: '.js' as CompileResultType,
+  selectedResult: '.result' as CompileResultType,
   compileResult: {} as Record<string, string>,
   updateSelected(key: string) {
     this.selected = key;
@@ -57,7 +58,7 @@ const playground = makeAutoObservable({
     return this.files[this.selected];
   },
   async compile() {
-    const result = await compileMemfs(this.files, 'main.js');
+    const result = await compileMemfs(this.files, 'main.tsx');
     this.updateResult(result);
   },
   updateFileContent(file: string, content: string) {
@@ -76,13 +77,31 @@ const Preview = observer(() => {
   console.log(toJS(playground));
   return (
     <div>
+      <ListItem
+        onClick={() => playground.updateSelectedResult('.result')}
+        active={playground.selectedResult === '.result'}
+      >
+        Result
+      </ListItem>
       <ListItem onClick={() => playground.updateSelectedResult('.js')} active={playground.selectedResult === '.js'}>
         JS output
       </ListItem>
       <ListItem onClick={() => playground.updateSelectedResult('.css')} active={playground.selectedResult === '.css'}>
         CSS output
       </ListItem>
-      <Editor value={playground.selectedResultContent} language={ext2language(playground.selectedResult)} />
+      {(playground.selectedResult === '.js' || playground.selectedResult === '.css') && (
+        <Editor value={playground.selectedResultContent} language={ext2language(playground.selectedResult)} />
+      )}
+      {playground.selectedResult === '.result' && (
+        <iframe
+          srcDoc={`<p>hello world</p>`}
+          css={css`
+            border-width: 0;
+            width: 100%;
+            height: 100%;
+          `}
+        />
+      )}
     </div>
   );
 });

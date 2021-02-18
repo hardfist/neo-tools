@@ -13399,8 +13399,8 @@
             lastEffect: null
           };
         }
-        function basicStateReducer(state, action2) {
-          return typeof action2 === "function" ? action2(state) : action2;
+        function basicStateReducer(state, action3) {
+          return typeof action3 === "function" ? action3(state) : action3;
         }
         function mountReducer(reducer, initialArg, init2) {
           var hook = mountWorkInProgressHook();
@@ -13486,8 +13486,8 @@
                 if (update.eagerReducer === reducer) {
                   newState = update.eagerState;
                 } else {
-                  var action2 = update.action;
-                  newState = reducer(newState, action2);
+                  var action3 = update.action;
+                  newState = reducer(newState, action3);
                 }
               }
               update = update.next;
@@ -13525,8 +13525,8 @@
             var firstRenderPhaseUpdate = lastRenderPhaseUpdate.next;
             var update = firstRenderPhaseUpdate;
             do {
-              var action2 = update.action;
-              newState = reducer(newState, action2);
+              var action3 = update.action;
+              newState = reducer(newState, action3);
               update = update.next;
             } while (update !== firstRenderPhaseUpdate);
             if (!objectIs(newState, hook.memoizedState)) {
@@ -14000,7 +14000,7 @@
           var id = rerenderState()[0];
           return id;
         }
-        function dispatchAction(fiber, queue2, action2) {
+        function dispatchAction(fiber, queue2, action3) {
           {
             if (typeof arguments[3] === "function") {
               error("State updates from the useState() and useReducer() Hooks don't support the second callback argument. To execute a side effect after rendering, declare it in the component body with useEffect().");
@@ -14010,7 +14010,7 @@
           var lane = requestUpdateLane(fiber);
           var update = {
             lane,
-            action: action2,
+            action: action3,
             eagerReducer: null,
             eagerState: null,
             next: null
@@ -14037,7 +14037,7 @@
                 }
                 try {
                   var currentState = queue2.lastRenderedState;
-                  var eagerState = lastRenderedReducer(currentState, action2);
+                  var eagerState = lastRenderedReducer(currentState, action3);
                   update.eagerReducer = lastRenderedReducer;
                   update.eagerState = eagerState;
                   if (objectIs(eagerState, currentState)) {
@@ -23686,7 +23686,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   var globalKey;
 
   // src/index.tsx
-  var import_react28 = __toModule(require_react());
+  var import_react29 = __toModule(require_react());
   var import_react_dom2 = __toModule(require_react_dom());
 
   // src/components/list.tsx
@@ -40011,13 +40011,12 @@ onmessage = ({data: wasm}) => {
           }
           realPath = resolvePath;
           const content = (await context.options.fileSystem.promises.readFile(realPath)).toString();
-          const loader2 = realPath.endsWith(".js") ? "ts" : "css";
           return {
             contents: content,
             pluginData: {
               importer: realPath
             },
-            loader: loader2
+            loader: import_path2.default.extname(realPath).slice(1)
           };
         });
       }
@@ -42042,10 +42041,10 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     }
     derivation.dependenciesState_ = IDerivationState_.NOT_TRACKING_;
   }
-  function untracked(action2) {
+  function untracked(action3) {
     var prev = untrackedStart();
     try {
-      return action2();
+      return action3();
     } finally {
       untrackedEnd(prev);
     }
@@ -42504,7 +42503,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     bound: true
   });
   function createActionFactory(autoAction2) {
-    var res = function action2(arg1, arg2) {
+    var res = function action3(arg1, arg2) {
       if (isFunction2(arg1))
         return createAction(arg1.name || DEFAULT_ACTION_NAME, arg1, autoAction2);
       if (isFunction2(arg2))
@@ -42860,13 +42859,13 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
         return getAtom(args[0], args[1]);
     }
   }
-  function transaction(action2, thisArg) {
+  function transaction(action3, thisArg) {
     if (thisArg === void 0) {
       thisArg = void 0;
     }
     startBatch();
     try {
-      return action2.apply(thisArg);
+      return action3.apply(thisArg);
     } finally {
       endBatch();
     }
@@ -45178,10 +45177,10 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   // src/pages/playground.tsx
   var import_path_browserify = __toModule(require_path_browserify2());
 
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/main.js
-  var main_default = "import './style.css';\nimport react from 'https://unpkg.com/react@17.0.1/index.js';\nimport answer from 'the-answer';\nimport * as lib from './lib';\nconsole.log('lib:', lib);\nconsole.log('answer:', answer, react);\n";
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/main.tsx
+  var main_default = "import { answer } from './lib';\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  return <div>esbuild repl</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
 
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.js
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.ts
   var lib_default = "export const answer = 42;\n";
 
   // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css?
@@ -45210,14 +45209,14 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   // src/pages/playground.tsx
   console.log("style:", style_default);
   var initialFiles = {
-    "main.js": main_default,
-    "lib.js": lib_default,
+    "main.tsx": main_default,
+    "lib.tsx": lib_default,
     "style.css": style_default
   };
   var playground = makeAutoObservable({
     files: initialFiles,
     selected: Object.keys(initialFiles)[0] ?? "",
-    selectedResult: ".js",
+    selectedResult: ".result",
     compileResult: {},
     updateSelected(key) {
       this.selected = key;
@@ -45251,7 +45250,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
       return this.files[this.selected];
     },
     async compile() {
-      const result = await compileMemfs(this.files, "main.js");
+      const result = await compileMemfs(this.files, "main.tsx");
       this.updateResult(result);
     },
     updateFileContent(file, content) {
@@ -45269,14 +45268,24 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   var Preview = observer(() => {
     console.log(toJS(playground));
     return /* @__PURE__ */ jsx("div", null, /* @__PURE__ */ jsx(ListItem, {
+      onClick: () => playground.updateSelectedResult(".result"),
+      active: playground.selectedResult === ".result"
+    }, "Result"), /* @__PURE__ */ jsx(ListItem, {
       onClick: () => playground.updateSelectedResult(".js"),
       active: playground.selectedResult === ".js"
     }, "JS output"), /* @__PURE__ */ jsx(ListItem, {
       onClick: () => playground.updateSelectedResult(".css"),
       active: playground.selectedResult === ".css"
-    }, "CSS output"), /* @__PURE__ */ jsx(Editor2, {
+    }, "CSS output"), (playground.selectedResult === ".js" || playground.selectedResult === ".css") && /* @__PURE__ */ jsx(Editor2, {
       value: playground.selectedResultContent,
       language: ext2language(playground.selectedResult)
+    }), playground.selectedResult === ".result" && /* @__PURE__ */ jsx("iframe", {
+      srcDoc: `<p>hello world</p>`,
+      css: css`
+            border-width: 0;
+            width: 100%;
+            height: 100%;
+          `
     }));
   });
   var EditArea = observer(() => {
@@ -45309,7 +45318,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   });
 
   // src/index.tsx
-  import_react_dom2.default.render(/* @__PURE__ */ jsx(import_react28.default.StrictMode, null, /* @__PURE__ */ jsx("div", {
+  import_react_dom2.default.render(/* @__PURE__ */ jsx(import_react29.default.StrictMode, null, /* @__PURE__ */ jsx("div", {
     className: "theme-default"
   }, /* @__PURE__ */ jsx(Playground, null))), document.getElementById("root"));
 })();

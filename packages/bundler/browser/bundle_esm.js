@@ -15471,13 +15471,12 @@ var pluginMemfs = (context) => {
         }
         realPath = resolvePath;
         const content = (await context.options.fileSystem.promises.readFile(realPath)).toString();
-        const loader = realPath.endsWith(".js") ? "ts" : "css";
         return {
           contents: content,
           pluginData: {
             importer: realPath
           },
-          loader
+          loader: import_path2.default.extname(realPath).slice(1)
         };
       });
     }
