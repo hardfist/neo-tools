@@ -3,7 +3,7 @@ import { Editor } from '../components/editor';
 import React, { Fragment, useEffect, useRef } from 'react';
 import { Nav } from '../components/nav';
 import { css } from '@emotion/react';
-import { compileMemfs } from '@neotools/bundler';
+import { compileMemfs, Compiler } from '@neotools/bundler';
 import { Row, Col } from '../components/grid';
 import { toJS, makeAutoObservable, autorun, reaction, action } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
@@ -22,6 +22,7 @@ const initialFiles = {
   'style.css': _style,
 };
 type CompileResultType = '.js' | '.css' | '.result';
+let compiler: Compiler | null = null;
 const playground = makeAutoObservable({
   files: initialFiles as Record<string, string>,
   selected: Object.keys(initialFiles)[0] ?? '',
@@ -60,11 +61,26 @@ const playground = makeAutoObservable({
     return this.files[this.selected];
   },
   async compile() {
-    const result = await compileMemfs(this.files, 'main.tsx');
-    this.updateResult(result);
+    const context = this;
+    if (!compiler) {
+      compiler = compileMemfs(this.files, {
+        input: 'main.tsx',
+        hooks: {
+          done(result) {
+            const compileResult = {} as Record<string, string>;
+            result?.outputFiles?.forEach((x) => {
+              compileResult[x.path] = x.text;
+            });
+            context.updateResult(compileResult);
+          },
+        },
+      });
+    }
+    compiler.build();
   },
-  updateFileContent(file: string, content: string) {
+  async updateFileContent(file: string, content: string) {
     this.files[file] = content;
+    await compiler?.options.fileSystem.promises.writeFile(file, content);
   },
 });
 const ext2language = (ext: string) => {
@@ -124,8 +140,8 @@ const EditArea = observer(() => {
         }}
       />
       <Editor
-        onChange={(value) => {
-          playground.updateFileContent(playground.selected, value ?? '');
+        onChange={async (value) => {
+          await playground.updateFileContent(playground.selected, value ?? '');
           playground.compile();
         }}
         value={playground.currentFile}

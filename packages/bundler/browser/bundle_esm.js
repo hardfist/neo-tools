@@ -15460,7 +15460,6 @@ var pluginMemfs = (context) => {
       });
       build2.onLoad({filter: /.*/, namespace: MemfsNamespace}, async (args) => {
         let realPath = args.path;
-        const fs3 = context.options.fileSystem;
         const resolvePath = resolve({
           id: args.path,
           importer: args.pluginData.importer,
@@ -15562,16 +15561,21 @@ var pluginHttp = () => {
 var UnpkgNamepsace = "unpkg";
 var UnpkgHost = "https://unpkg.com/";
 var pluginUnpkg = () => {
+  const cache = {};
   return {
     name: "unpkg",
     setup(build2) {
       build2.onLoad({namespace: UnpkgNamepsace, filter: /.*/}, async (args) => {
         const pathUrl = new URL(args.path, args.pluginData.parentUrl).toString();
-        const {url: url2, content} = await fetchPkg(pathUrl);
+        let value = cache[pathUrl];
+        if (!value) {
+          value = await fetchPkg(pathUrl);
+        }
+        cache[pathUrl] = value;
         return {
-          contents: content,
+          contents: value.content,
           pluginData: {
-            parentUrl: url2
+            parentUrl: value.url
           }
         };
       });
@@ -15769,35 +15773,38 @@ var Compiler = class {
       const context2 = this;
       if (this.result) {
         this.result = await this.result?.rebuild?.();
+      } else {
+        const plugins = [watchPlugin(), ...this.options.plugins];
+        const result = await build(normalizeEsbuildOptions({
+          entryPoints: ["<stdin>"],
+          incremental: true,
+          logLevel: "error",
+          write: !context2.options.memfs,
+          outfile: this.options.output,
+          format: context2.options.format,
+          globalName: "bundler",
+          define: {
+            __NODE__: JSON.stringify(context2.options.platform === "node"),
+            "process.env.NODE_ENV": JSON.stringify(process_exports.env.NODE_ENV || "production")
+          },
+          external: this.options.platform === "node" ? ["esbuild", "fsevents"] : ["esbuild", "fsevents", "chokidar", "yargs"],
+          platform: this.options.platform,
+          banner: this.options.platform === "browser" ? "global = globalThis" : "",
+          inject: this.options.platform === "node" ? [] : [import_path5.default.join(__dirname, "../shim/node.js")],
+          plugins: [
+            context2.options.platform === "browser" && pluginNodePolyfill(),
+            context2.options.platform === "browser" && pluginGlobalExternal(),
+            pluginEntry(context2),
+            rollupProxyPlugin(plugins, context2),
+            pluginBareModule(context2),
+            context2.options.http && pluginHttp(),
+            context2.options.unpkg && pluginUnpkg(),
+            context2.options.memfs && pluginMemfs(context2)
+          ].filter(Boolean)
+        }));
+        console.log("result:", result);
+        this.result = result;
       }
-      const plugins = [watchPlugin(), ...this.options.plugins];
-      this.result = await build(normalizeEsbuildOptions({
-        entryPoints: ["<stdin>"],
-        incremental: watch,
-        logLevel: "error",
-        write: !context2.options.memfs,
-        outfile: this.options.output,
-        format: context2.options.format,
-        globalName: "bundler",
-        define: {
-          __NODE__: JSON.stringify(context2.options.platform === "node"),
-          "process.env.NODE_ENV": JSON.stringify(process_exports.env.NODE_ENV || "production")
-        },
-        external: this.options.platform === "node" ? ["esbuild", "fsevents"] : ["esbuild", "fsevents", "chokidar", "yargs"],
-        platform: this.options.platform,
-        banner: this.options.platform === "browser" ? "global = globalThis" : "",
-        inject: this.options.platform === "node" ? [] : [import_path5.default.join(__dirname, "../shim/node.js")],
-        plugins: [
-          context2.options.platform === "browser" && pluginNodePolyfill(),
-          context2.options.platform === "browser" && pluginGlobalExternal(),
-          pluginEntry(context2),
-          rollupProxyPlugin(plugins, context2),
-          pluginBareModule(context2),
-          context2.options.http && pluginHttp(),
-          context2.options.unpkg && pluginUnpkg(),
-          context2.options.memfs && pluginMemfs(context2)
-        ].filter(Boolean)
-      }));
       if (context2.options.memfs) {
         this.result?.outputFiles?.forEach((x) => {
           if (!context2.options.fileSystem.existsSync(import_path5.default.dirname(x.path))) {
@@ -15879,29 +15886,20 @@ async function run() {
     await compiler.build();
   }).demandCommand(1, "").recommendCommands().strict().help().argv;
 }
-function compileMemfs(json, input) {
+function compileMemfs(json, options) {
   const defer = import_p_defer.default();
   import_memfs3.default.vol.fromJSON(json, "/");
-  const result = new Compiler({
+  return new Compiler({
     memfs: true,
     fileSystem: import_memfs3.default,
     cwd: process_exports.cwd(),
     output: "bundle.js",
-    input: input ?? "src/index.js",
+    input: options.input,
+    hooks: options.hooks,
     unpkg: true,
     http: false,
-    plugins: [],
-    hooks: {
-      done(result2) {
-        const compileResult = {};
-        result2?.outputFiles?.forEach((x) => {
-          compileResult[x.path] = x.text;
-        });
-        defer.resolve(compileResult);
-      }
-    }
-  }).build();
-  return defer.promise;
+    plugins: []
+  });
 }
 var export_memfs = import_memfs3.default;
 export {
