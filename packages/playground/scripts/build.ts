@@ -1,14 +1,18 @@
-import { build } from 'esbuild';
+import * as esbuild from 'esbuild';
 import path from 'path';
-import fse from 'fs-extra';
 import minimist from 'minimist';
+import fs from 'fs';
+import vm from 'vm';
 import liveServer from 'live-server';
 import { pluginPostcss } from './plugins/postcss';
+import { pluginFn } from './plugins/fn';
+import { pluginWorker } from './plugins/worker';
+import { pluginRaw } from './plugins/raw';
 async function main() {
   const argv = minimist(process.argv.slice(2));
   const outdir = path.join(__dirname, '../public');
   process.env.NODE_ENV = 'development';
-  build({
+  esbuild.build({
     entryPoints: [path.join(__dirname, '../src/index.tsx')],
     outdir,
     watch: argv.watch,
@@ -25,7 +29,7 @@ async function main() {
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
-    plugins: [pluginPostcss()],
+    plugins: [pluginPostcss(), pluginFn(), pluginWorker(), pluginRaw()],
   });
   if (argv.watch) {
     liveServer.start({

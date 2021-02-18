@@ -50,7 +50,7 @@ function normalizeEsbuildOptions(options: BuildOptions) {
 }
 
 export class Compiler {
-  options: CompilerOptions;
+  options: Required<CompilerOptions>;
   result: BuildResult | undefined;
   watcher?: chokidar.FSWatcher;
   firstBuildPass = false;
@@ -82,37 +82,40 @@ export class Compiler {
       const context = this;
       if (this.result) {
         this.result = await this.result?.rebuild?.();
+      } else {
+        const plugins = [watchPlugin(), ...this.options.plugins];
+        const result = await build(
+          normalizeEsbuildOptions({
+            entryPoints: ['<stdin>'],
+            incremental: true,
+            logLevel: 'error',
+            write: !context.options.memfs,
+            outfile: this.options.output,
+            format: context.options.format,
+            globalName: 'bundler',
+            define: {
+              __NODE__: JSON.stringify(context.options.platform === 'node'),
+              'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+            },
+            external:
+              this.options.platform === 'node' ? ['esbuild', 'fsevents'] : ['esbuild', 'fsevents', 'chokidar', 'yargs'],
+            platform: this.options.platform,
+            banner: this.options.platform === 'browser' ? 'global = globalThis' : '',
+            inject: this.options.platform === 'node' ? [] : [path.join(__dirname, '../shim/node.js')],
+            plugins: [
+              context.options.platform === 'browser' && pluginNodePolyfill(),
+              context.options.platform === 'browser' && pluginGlobalExternal(),
+              pluginEntry(context),
+              rollupProxyPlugin(plugins, context),
+              pluginBareModule(context),
+              context.options.http && pluginHttp(),
+              context.options.unpkg && pluginUnpkg(),
+              context.options.memfs && pluginMemfs(context),
+            ].filter(Boolean) as Plugin[],
+          })
+        );
+        this.result = result;
       }
-      const plugins = [watchPlugin(), ...this.options.plugins];
-      this.result = await build(
-        normalizeEsbuildOptions({
-          entryPoints: ['<stdin>'],
-          incremental: watch,
-          logLevel: 'error',
-          write: !context.options.memfs,
-          outfile: this.options.output,
-          format: context.options.format,
-          globalName: 'bundler',
-          define: {
-            __NODE__: JSON.stringify(context.options.platform === 'node'),
-          },
-          external:
-            this.options.platform === 'node' ? ['esbuild', 'fsevents'] : ['esbuild', 'fsevents', 'chokidar', 'yargs'],
-          platform: this.options.platform,
-          banner: this.options.platform === 'browser' ? 'global = globalThis' : '',
-          inject: this.options.platform === 'node' ? [] : [path.join(__dirname, '../shim/node.js')],
-          plugins: [
-            context.options.platform === 'browser' && pluginNodePolyfill(),
-            context.options.platform === 'browser' && pluginGlobalExternal(),
-            pluginEntry(context),
-            rollupProxyPlugin(plugins, context),
-            pluginBareModule(context),
-            context.options.http && pluginHttp(),
-            context.options.unpkg && pluginUnpkg(),
-            context.options.memfs && pluginMemfs(context),
-          ].filter(Boolean) as Plugin[],
-        })
-      );
       if (context.options.memfs) {
         this.result?.outputFiles?.forEach((x) => {
           if (!context.options.fileSystem.existsSync(path.dirname(x.path))) {
@@ -121,9 +124,8 @@ export class Compiler {
           context.options.fileSystem.writeFileSync(x.path, x.text);
         });
       }
-
       // this.hooks.done.promise(this.result);
-      this.options?.hooks?.done?.(this.result);
+      this.options?.hooks?.done?.(this.result!);
     } finally {
       this.firstBuildPass = true;
     }

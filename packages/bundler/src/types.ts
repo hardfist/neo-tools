@@ -12,11 +12,11 @@ export interface NeoHooks {
 export interface CompilerOptions {
   input: string;
   output?: string;
-  unpkg: boolean;
-  memfs: boolean;
-  http: boolean;
-  fileSystem: typeof import('fs');
-  plugins: Plugin[];
+  unpkg?: boolean;
+  memfs?: boolean;
+  http?: boolean;
+  fileSystem?: typeof import('fs');
+  plugins?: Plugin[];
   hooks?: NeoHooks;
   watch?: boolean;
   format?: Format;

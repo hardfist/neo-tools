@@ -5,7 +5,7 @@ import { yargsBuildOptions } from './lib/yargsOptions';
 import fs from 'fs';
 import memfs from 'memfs';
 import path from 'path';
-import { FileSystem } from './types';
+import { CompilerOptions, FileSystem } from './types';
 import pDefer from 'p-defer';
 export async function run() {
   const yargs = await import('yargs');
@@ -49,28 +49,19 @@ export async function run() {
     .help().argv;
 }
 
-export function compileMemfs(json: Record<string, any>, input: string) {
+export function compileMemfs(json: Record<string, any>, options: CompilerOptions) {
   const defer = pDefer<Record<string, string>>();
   memfs.vol.fromJSON(json, '/');
-  const result = new Compiler({
+  return new Compiler({
     memfs: true,
     fileSystem: (memfs as any) as FileSystem,
     cwd: process.cwd(),
     output: 'bundle.js',
-    input: input ?? 'src/index.js',
+    input: options.input,
+    hooks: options.hooks,
     unpkg: true,
     http: false,
     plugins: [],
-    hooks: {
-      done(result) {
-        const compileResult = {} as Record<string, string>;
-        result?.outputFiles?.forEach((x) => {
-          compileResult[x.path] = x.text;
-        });
-        defer.resolve(compileResult);
-      },
-    },
-  }).build();
-  return defer.promise;
+  });
 }
 export { Compiler, memfs };

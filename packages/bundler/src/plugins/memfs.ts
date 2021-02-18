@@ -29,7 +29,6 @@ export const pluginMemfs = (context: Compiler): Plugin => {
       });
       build.onLoad({ filter: /.*/, namespace: MemfsNamespace }, async (args) => {
         let realPath = args.path;
-        const fs = context.options.fileSystem;
         const resolvePath = resolve({
           id: args.path,
           importer: args.pluginData.importer,
@@ -39,16 +38,13 @@ export const pluginMemfs = (context: Compiler): Plugin => {
           throw new Error('not found');
         }
         realPath = resolvePath;
-
         const content = (await context.options.fileSystem.promises.readFile(realPath)).toString();
-        const loader = realPath.endsWith('.js') ? 'ts' : 'css';
-
         return {
           contents: content,
           pluginData: {
             importer: realPath,
           },
-          loader,
+          loader: path.extname(realPath).slice(1) as 'js',
         };
       });
     },

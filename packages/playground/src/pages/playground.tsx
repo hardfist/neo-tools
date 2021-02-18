@@ -1,32 +1,34 @@
 import { FileTree } from '../components/filetree';
 import { Editor } from '../components/editor';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { Nav } from '../components/nav';
-import { compileMemfs } from '@neotools/bundler';
+import { css } from '@emotion/react';
+import { compileMemfs, Compiler } from '@neotools/bundler';
 import { Row, Col } from '../components/grid';
-import { toJS, makeAutoObservable, autorun, reaction } from 'mobx';
+import { toJS, makeAutoObservable, autorun, reaction, action } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
-
 import { ListItem } from '../components/list';
+import _mainjs from 'raw:../examples/main.tsx';
+import _lib from 'raw:../examples/lib.ts';
+import _style from 'raw:../examples/style.css?';
+import html from 'raw:../examples/index.html';
+
+import '../utils/worker';
+console.log('style:', _style);
 const initialFiles = {
-  'main.js': `
-  import './style.css'
-  import react from 'https://unpkg.com/react@17.0.1/index.js'
-  import answer from 'the-answer';
-  import * as lib from './lib';
-  console.log('lib:',lib);
-  console.log('answer:',answer,react);
-  `,
-  'lib.js': `export const answer = 42`,
-  'style.css': 'text\n{ color: red}',
+  'main.tsx': _mainjs,
+  'lib.tsx': _lib,
+  'style.css': _style,
 };
-type CompileResultType = '.js' | '.css';
+type CompileResultType = '.js' | '.css' | '.result';
+let compiler: Compiler | null = null;
 const playground = makeAutoObservable({
   files: initialFiles as Record<string, string>,
   selected: Object.keys(initialFiles)[0] ?? '',
-  selectedResult: '.js' as CompileResultType,
+  selectedResult: '.result' as CompileResultType,
   compileResult: {} as Record<string, string>,
+
   updateSelected(key: string) {
     this.selected = key;
   },
@@ -59,11 +61,26 @@ const playground = makeAutoObservable({
     return this.files[this.selected];
   },
   async compile() {
-    const result = await compileMemfs(this.files, 'main.js');
-    this.updateResult(result);
+    const context = this;
+    if (!compiler) {
+      compiler = compileMemfs(this.files, {
+        input: 'main.tsx',
+        hooks: {
+          done(result) {
+            const compileResult = {} as Record<string, string>;
+            result?.outputFiles?.forEach((x) => {
+              compileResult[x.path] = x.text;
+            });
+            context.updateResult(compileResult);
+          },
+        },
+      });
+    }
+    compiler.build();
   },
-  updateFileContent(file: string, content: string) {
+  async updateFileContent(file: string, content: string) {
     this.files[file] = content;
+    await compiler?.options.fileSystem.promises.writeFile(file, content);
   },
 });
 const ext2language = (ext: string) => {
@@ -76,15 +93,39 @@ const ext2language = (ext: string) => {
 };
 const Preview = observer(() => {
   console.log(toJS(playground));
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  autorun(() => {
+    const code = playground.jsResult;
+    iframeRef.current?.contentWindow?.postMessage({ code });
+  });
   return (
     <div>
+      <ListItem
+        onClick={() => playground.updateSelectedResult('.result')}
+        active={playground.selectedResult === '.result'}
+      >
+        Result
+      </ListItem>
       <ListItem onClick={() => playground.updateSelectedResult('.js')} active={playground.selectedResult === '.js'}>
         JS output
       </ListItem>
       <ListItem onClick={() => playground.updateSelectedResult('.css')} active={playground.selectedResult === '.css'}>
         CSS output
       </ListItem>
-      <Editor value={playground.selectedResultContent} language={ext2language(playground.selectedResult)} />
+      {(playground.selectedResult === '.js' || playground.selectedResult === '.css') && (
+        <Editor value={playground.selectedResultContent} language={ext2language(playground.selectedResult)} />
+      )}
+      {playground.selectedResult === '.result' && (
+        <iframe
+          ref={iframeRef}
+          srcDoc={html}
+          css={css`
+            border-width: 0;
+            width: 100%;
+            height: 100%;
+          `}
+        />
+      )}
     </div>
   );
 });
@@ -99,8 +140,8 @@ const EditArea = observer(() => {
         }}
       />
       <Editor
-        onChange={(value) => {
-          playground.updateFileContent(playground.selected, value ?? '');
+        onChange={async (value) => {
+          await playground.updateFileContent(playground.selected, value ?? '');
           playground.compile();
         }}
         value={playground.currentFile}
