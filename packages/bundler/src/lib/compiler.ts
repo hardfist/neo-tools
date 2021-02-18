@@ -95,6 +95,7 @@ export class Compiler {
           globalName: 'bundler',
           define: {
             __NODE__: JSON.stringify(context.options.platform === 'node'),
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
           },
           external:
             this.options.platform === 'node' ? ['esbuild', 'fsevents'] : ['esbuild', 'fsevents', 'chokidar', 'yargs'],

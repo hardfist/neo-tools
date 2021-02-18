@@ -1,6 +1,6 @@
 import { FileTree } from '../components/filetree';
 import { Editor } from '../components/editor';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { Nav } from '../components/nav';
 import { css } from '@emotion/react';
 import { compileMemfs } from '@neotools/bundler';
@@ -12,6 +12,7 @@ import { ListItem } from '../components/list';
 import _mainjs from 'raw:../examples/main.tsx';
 import _lib from 'raw:../examples/lib.ts';
 import _style from 'raw:../examples/style.css?';
+import html from 'raw:../examples/index.html';
 
 import '../utils/worker';
 console.log('style:', _style);
@@ -26,6 +27,7 @@ const playground = makeAutoObservable({
   selected: Object.keys(initialFiles)[0] ?? '',
   selectedResult: '.result' as CompileResultType,
   compileResult: {} as Record<string, string>,
+
   updateSelected(key: string) {
     this.selected = key;
   },
@@ -75,6 +77,11 @@ const ext2language = (ext: string) => {
 };
 const Preview = observer(() => {
   console.log(toJS(playground));
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  autorun(() => {
+    const code = playground.jsResult;
+    iframeRef.current?.contentWindow?.postMessage({ code });
+  });
   return (
     <div>
       <ListItem
@@ -94,7 +101,8 @@ const Preview = observer(() => {
       )}
       {playground.selectedResult === '.result' && (
         <iframe
-          srcDoc={`<p>hello world</p>`}
+          ref={iframeRef}
+          srcDoc={html}
           css={css`
             border-width: 0;
             width: 100%;

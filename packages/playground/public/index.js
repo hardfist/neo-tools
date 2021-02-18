@@ -1068,7 +1068,7 @@
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init2);
         }
-        function useRef6(initialValue) {
+        function useRef7(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1647,7 +1647,7 @@
         exports.useLayoutEffect = useLayoutEffect2;
         exports.useMemo = useMemo;
         exports.useReducer = useReducer;
-        exports.useRef = useRef6;
+        exports.useRef = useRef7;
         exports.useState = useState9;
         exports.version = ReactVersion;
       })();
@@ -40296,7 +40296,8 @@ onmessage = ({data: wasm}) => {
           format: context2.options.format,
           globalName: "bundler",
           define: {
-            __NODE__: JSON.stringify(context2.options.platform === "node")
+            __NODE__: JSON.stringify(context2.options.platform === "node"),
+            "process.env.NODE_ENV": JSON.stringify(process_exports.env.NODE_ENV || "production")
           },
           external: this.options.platform === "node" ? ["esbuild", "fsevents"] : ["esbuild", "fsevents", "chokidar", "yargs"],
           platform: this.options.platform,
@@ -45178,13 +45179,36 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   var import_path_browserify = __toModule(require_path_browserify2());
 
   // _raw:/Users/admin/github/neo/packages/playground/src/examples/main.tsx
-  var main_default = "import { answer } from './lib';\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  return <div>esbuild repl</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
+  var main_default = "import { answer } from './lib';\nimport React, { useEffect } from 'react';\nimport { useState } from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount((x) => x + 1);\n    }, 1000);\n  }, []);\n  return <div>count: {count}</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
 
   // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.ts
   var lib_default = "export const answer = 42;\n";
 
   // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css?
   var style_default = "text {\n  color: red;\n}\n";
+
+  // _raw:/Users/admin/github/neo/packages/playground/src/examples/index.html
+  var examples_default = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">loading....</div>
+    <script>
+      window.addEventListener('message', (e) => {
+        const { code } = e.data;
+        if (code) {
+          eval(code);
+        }
+      });
+    </script>
+  </body>
+</html>
+`;
 
   // worker:/Users/admin/github/neo/packages/playground/src/worker/add.ts
   var blob = new Blob(['// src/worker/add.ts\nself.addEventListener("message", (event) => {\n  const [a, b] = event.data;\n  self.postMessage(a + b);\n});\n'], {type: "text/javascript"});
@@ -45267,6 +45291,11 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
   var Preview = observer(() => {
     console.log(toJS(playground));
+    const iframeRef = import_react27.useRef(null);
+    autorun(() => {
+      const code = playground.jsResult;
+      iframeRef.current?.contentWindow?.postMessage({code});
+    });
     return /* @__PURE__ */ jsx("div", null, /* @__PURE__ */ jsx(ListItem, {
       onClick: () => playground.updateSelectedResult(".result"),
       active: playground.selectedResult === ".result"
@@ -45280,7 +45309,8 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
       value: playground.selectedResultContent,
       language: ext2language(playground.selectedResult)
     }), playground.selectedResult === ".result" && /* @__PURE__ */ jsx("iframe", {
-      srcDoc: `<p>hello world</p>`,
+      ref: iframeRef,
+      srcDoc: examples_default,
       css: css`
             border-width: 0;
             width: 100%;

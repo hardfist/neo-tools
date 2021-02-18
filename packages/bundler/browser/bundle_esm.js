@@ -15780,7 +15780,8 @@ var Compiler = class {
         format: context2.options.format,
         globalName: "bundler",
         define: {
-          __NODE__: JSON.stringify(context2.options.platform === "node")
+          __NODE__: JSON.stringify(context2.options.platform === "node"),
+          "process.env.NODE_ENV": JSON.stringify(process_exports.env.NODE_ENV || "production")
         },
         external: this.options.platform === "node" ? ["esbuild", "fsevents"] : ["esbuild", "fsevents", "chokidar", "yargs"],
         platform: this.options.platform,
