@@ -7,7 +7,7 @@ import liveServer from 'live-server';
 import { pluginPostcss } from './plugins/postcss';
 import { pluginFn } from './plugins/fn';
 import { pluginWorker } from './plugins/worker';
-import { pluginRaw } from './plugins/raw';
+import { pluginRaw } from '@neo-tools/raw';
 async function main() {
   const argv = minimist(process.argv.slice(2));
   const outdir = path.join(__dirname, '../public');
@@ -17,6 +17,7 @@ async function main() {
     outdir,
     watch: argv.watch,
     sourcemap: 'external',
+    mainFields: ['esbuild', 'browser', 'module', 'main'],
     logLevel: 'error',
     errorLimit: 1,
     bundle: true,

@@ -8,6 +8,7 @@ importers:
       ava: 3.15.0
       esbuild: 0.8.45
       esbuild-register: 1.2.1_esbuild@0.8.45
+      esbuild-wasm: 0.8.45
       eslint: 7.17.0
       husky: 4.3.7
       lint-staged: 10.5.3
@@ -22,6 +23,7 @@ importers:
       ava: ^3.15.0
       esbuild: 0.8.45
       esbuild-register: ^1.2.1
+      esbuild-wasm: 0.8.45
       eslint: ^7.17.0
       husky: ^4.3.7
       lint-staged: ^10.5.3
@@ -48,8 +50,6 @@ importers:
       crypto-browserify: 3.12.0
       debounce: 1.2.0
       enhanced-resolve: 5.7.0
-      esbuild: 0.8.42
-      esbuild-wasm: 0.8.42
       klona: 2.0.4
       memfs: 3.2.0
       monaco-editor: 0.22.3
@@ -81,8 +81,6 @@ importers:
       crypto-browserify: ^3.12.0
       debounce: ^1.2.0
       enhanced-resolve: ^5.7.0
-      esbuild: ^0.8.42
-      esbuild-wasm: ^0.8.42
       klona: ^2.0.4
       memfs: ^3.2.0
       monaco-editor: ^0.22.3
@@ -107,8 +105,6 @@ importers:
       source-map-support: ^0.5.19
   packages/helpers:
     specifiers: {}
-  packages/pack:
-    specifiers: {}
   packages/playground:
     dependencies:
       '@types/minimist': 1.2.1
@@ -120,6 +116,7 @@ importers:
       '@emotion/react': 11.1.5_@types+react@17.0.1+react@17.0.1
       '@emotion/styled': 11.1.5_d66fe04be1eb05ad7ad380dc17c41709
       '@monaco-editor/react': 4.0.9_react-dom@17.0.1+react@17.0.1
+      '@neo-tools/raw': link:../../plugins/raw
       '@types/fs-extra': 9.0.6
       '@types/live-server': 1.2.0
       '@types/react': 17.0.1
@@ -140,6 +137,7 @@ importers:
       '@emotion/react': ^11.1.5
       '@emotion/styled': ^11.1.5
       '@monaco-editor/react': ^4.0.9
+      '@neo-tools/raw': '*'
       '@types/fs-extra': ^9.0.6
       '@types/live-server': ^1.2.0
       '@types/minimist': ^1.2.1
@@ -161,18 +159,10 @@ importers:
       react-split: ^2.0.9
       rebass: ^4.0.7
       tailwindcss: ^2.0.3
-  packages/react:
-    dependencies:
-      react: 17.0.1
-      react-dom: 17.0.1_react@17.0.1
-    specifiers:
-      react: ^17.0.1
-      react-dom: ^17.0.1
+  plugins/raw:
+    specifiers: {}
   plugins/wasm:
-    devDependencies:
-      esbuild: 0.8.46
-    specifiers:
-      esbuild: ^0.8.46
+    specifiers: {}
 lockfileVersion: 5.2
 packages:
   /@ant-design/colors/6.0.0:
@@ -2852,21 +2842,14 @@ packages:
     resolution:
       integrity: sha1-pDDezt18uD7PBRQcenBQuZByTUE=
       tarball: esbuild-register/download/esbuild-register-1.2.1.tgz
-  /esbuild-wasm/0.8.42:
+  /esbuild-wasm/0.8.45:
     dev: true
     engines:
       node: '>=8'
     hasBin: true
     resolution:
-      integrity: sha1-6mufv6kVXn10q22C2YbYoU2Tp6o=
-      tarball: esbuild-wasm/download/esbuild-wasm-0.8.42.tgz
-  /esbuild/0.8.42:
-    dev: true
-    hasBin: true
-    requiresBuild: true
-    resolution:
-      integrity: sha1-JhAc8X/kxGAsfHZ+MXfPDFOAc6w=
-      tarball: esbuild/download/esbuild-0.8.42.tgz
+      integrity: sha1-1alyEPeqKtkv6S9XpAqR7ftdSeo=
+      tarball: esbuild-wasm/download/esbuild-wasm-0.8.45.tgz
   /esbuild/0.8.45:
     dev: true
     hasBin: true
@@ -2874,13 +2857,6 @@ packages:
     resolution:
       integrity: sha1-gNV7awLtIOBdwBZCQ7EPxgzyD8A=
       tarball: esbuild/download/esbuild-0.8.45.tgz?cache=0&sync_timestamp=1613260978816&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fesbuild%2Fdownload%2Fesbuild-0.8.45.tgz
-  /esbuild/0.8.46:
-    dev: true
-    hasBin: true
-    requiresBuild: true
-    resolution:
-      integrity: sha1-j8cjDOMBmxLiVTOZ8MA4dacpwms=
-      tarball: esbuild/download/esbuild-0.8.46.tgz
   /escalade/3.1.1:
     dev: true
     engines:
@@ -3069,7 +3045,7 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
-      tarball: etag/download/etag-1.8.1.tgz?cache=0&sync_timestamp=1589772283387&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fetag%2Fdownload%2Fetag-1.8.1.tgz
+      tarball: etag/download/etag-1.8.1.tgz
   /event-stream/3.3.4:
     dependencies:
       duplexer: 0.1.2
@@ -3435,6 +3411,8 @@ packages:
     engines:
       node: ^8.16.0 || ^10.6.0 || >=11.0.0
     optional: true
+    os:
+      - darwin
     resolution:
       integrity: sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro=
       tarball: fsevents/download/fsevents-2.3.2.tgz
@@ -4318,7 +4296,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha1-jUz0y7JUTXt1g8IW/N/sGfa+FhU=
-      tarball: joycon/download/joycon-2.2.5.tgz
   /js-string-escape/1.0.1:
     dev: true
     engines:
@@ -4997,7 +4974,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
-      tarball: node-modules-regexp/download/node-modules-regexp-1.0.0.tgz
   /node-releases/1.1.69:
     dev: true
     resolution:
@@ -5502,7 +5478,6 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha1-ZDqSyviUVm+RsrmG0sZpUKji+4c=
-      tarball: pirates/download/pirates-4.0.1.tgz
   /pkg-conf/3.1.0:
     dependencies:
       find-up: 3.0.0
@@ -6339,6 +6314,7 @@ packages:
       object-assign: 4.1.1
       react: 17.0.1
       scheduler: 0.20.1
+    dev: true
     peerDependencies:
       react: 17.0.1
     resolution:
@@ -6376,6 +6352,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -6714,6 +6691,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+    dev: true
     resolution:
       integrity: sha1-2guQfiQCawEYHsvHXv3H8ntaAAw=
       tarball: scheduler/download/scheduler-0.20.1.tgz
@@ -7225,7 +7203,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha1-MfEoGzgyYwQ0gxwxDAHMzajL4AY=
-      tarball: strip-json-comments/download/strip-json-comments-3.1.1.tgz
   /styled-system/5.1.5:
     dependencies:
       '@styled-system/background': 5.1.2

@@ -27,7 +27,7 @@
     return __exportStar(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", {value: module, enumerable: true})), module);
   };
 
-  // ../../node_modules/.pnpm/react@17.0.1/node_modules/react/node_modules/object-assign/index.js
+  // ../../node_modules/.pnpm/object-assign@4.1.1/node_modules/object-assign/index.js
   var require_object_assign = __commonJS((exports, module) => {
     /*
     object-assign
@@ -1939,80 +1939,7 @@
     module.exports = _extends3;
   });
 
-  // ../../node_modules/.pnpm/react-dom@17.0.1_react@17.0.1/node_modules/react-dom/node_modules/object-assign/index.js
-  var require_object_assign2 = __commonJS((exports, module) => {
-    /*
-    object-assign
-    (c) Sindre Sorhus
-    @license MIT
-    */
-    "use strict";
-    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-    var hasOwnProperty3 = Object.prototype.hasOwnProperty;
-    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-    function toObject(val) {
-      if (val === null || val === void 0) {
-        throw new TypeError("Object.assign cannot be called with null or undefined");
-      }
-      return Object(val);
-    }
-    function shouldUseNative() {
-      try {
-        if (!Object.assign) {
-          return false;
-        }
-        var test1 = new String("abc");
-        test1[5] = "de";
-        if (Object.getOwnPropertyNames(test1)[0] === "5") {
-          return false;
-        }
-        var test2 = {};
-        for (var i2 = 0; i2 < 10; i2++) {
-          test2["_" + String.fromCharCode(i2)] = i2;
-        }
-        var order2 = Object.getOwnPropertyNames(test2).map(function(n2) {
-          return test2[n2];
-        });
-        if (order2.join("") !== "0123456789") {
-          return false;
-        }
-        var test3 = {};
-        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
-          test3[letter] = letter;
-        });
-        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
-          return false;
-        }
-        return true;
-      } catch (err) {
-        return false;
-      }
-    }
-    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
-      var from;
-      var to = toObject(target);
-      var symbols;
-      for (var s = 1; s < arguments.length; s++) {
-        from = Object(arguments[s]);
-        for (var key in from) {
-          if (hasOwnProperty3.call(from, key)) {
-            to[key] = from[key];
-          }
-        }
-        if (getOwnPropertySymbols) {
-          symbols = getOwnPropertySymbols(from);
-          for (var i2 = 0; i2 < symbols.length; i2++) {
-            if (propIsEnumerable.call(from, symbols[i2])) {
-              to[symbols[i2]] = from[symbols[i2]];
-            }
-          }
-        }
-      }
-      return to;
-    };
-  });
-
-  // ../../node_modules/.pnpm/react-dom@17.0.1_react@17.0.1/node_modules/react-dom/node_modules/scheduler/cjs/scheduler.development.js
+  // ../../node_modules/.pnpm/scheduler@0.20.1/node_modules/scheduler/cjs/scheduler.development.js
   var require_scheduler_development = __commonJS((exports) => {
     /** @license React v0.20.1
      * scheduler.development.js
@@ -2661,7 +2588,7 @@
     }
   });
 
-  // ../../node_modules/.pnpm/react-dom@17.0.1_react@17.0.1/node_modules/react-dom/node_modules/scheduler/index.js
+  // ../../node_modules/.pnpm/scheduler@0.20.1/node_modules/scheduler/index.js
   var require_scheduler = __commonJS((exports, module) => {
     "use strict";
     if (false) {
@@ -2671,7 +2598,7 @@
     }
   });
 
-  // ../../node_modules/.pnpm/react-dom@17.0.1_react@17.0.1/node_modules/react-dom/node_modules/scheduler/cjs/scheduler-tracing.development.js
+  // ../../node_modules/.pnpm/scheduler@0.20.1/node_modules/scheduler/cjs/scheduler-tracing.development.js
   var require_scheduler_tracing_development = __commonJS((exports) => {
     /** @license React v0.20.1
      * scheduler-tracing.development.js
@@ -2959,7 +2886,7 @@
     }
   });
 
-  // ../../node_modules/.pnpm/react-dom@17.0.1_react@17.0.1/node_modules/react-dom/node_modules/scheduler/tracing.js
+  // ../../node_modules/.pnpm/scheduler@0.20.1/node_modules/scheduler/tracing.js
   var require_tracing = __commonJS((exports, module) => {
     "use strict";
     if (false) {
@@ -2984,7 +2911,7 @@
       (function() {
         "use strict";
         var React8 = require_react();
-        var _assign = require_object_assign2();
+        var _assign = require_object_assign();
         var Scheduler = require_scheduler();
         var tracing = require_tracing();
         var ReactSharedInternals = React8.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
@@ -20972,257 +20899,14 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     }
   });
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/react-is/cjs/react-is.development.js
-  var require_react_is_development2 = __commonJS((exports) => {
-    /** @license React v16.13.1
-     * react-is.development.js
-     *
-     * Copyright (c) Facebook, Inc. and its affiliates.
-     *
-     * This source code is licensed under the MIT license found in the
-     * LICENSE file in the root directory of this source tree.
-     */
-    "use strict";
-    if (true) {
-      (function() {
-        "use strict";
-        var hasSymbol = typeof Symbol === "function" && Symbol.for;
-        var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for("react.element") : 60103;
-        var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for("react.portal") : 60106;
-        var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for("react.fragment") : 60107;
-        var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for("react.strict_mode") : 60108;
-        var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for("react.profiler") : 60114;
-        var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for("react.provider") : 60109;
-        var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for("react.context") : 60110;
-        var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for("react.async_mode") : 60111;
-        var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for("react.concurrent_mode") : 60111;
-        var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for("react.forward_ref") : 60112;
-        var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for("react.suspense") : 60113;
-        var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for("react.suspense_list") : 60120;
-        var REACT_MEMO_TYPE = hasSymbol ? Symbol.for("react.memo") : 60115;
-        var REACT_LAZY_TYPE = hasSymbol ? Symbol.for("react.lazy") : 60116;
-        var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for("react.block") : 60121;
-        var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for("react.fundamental") : 60117;
-        var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for("react.responder") : 60118;
-        var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for("react.scope") : 60119;
-        function isValidElementType(type) {
-          return typeof type === "string" || typeof type === "function" || type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === "object" && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-        }
-        function typeOf(object2) {
-          if (typeof object2 === "object" && object2 !== null) {
-            var $$typeof = object2.$$typeof;
-            switch ($$typeof) {
-              case REACT_ELEMENT_TYPE:
-                var type = object2.type;
-                switch (type) {
-                  case REACT_ASYNC_MODE_TYPE:
-                  case REACT_CONCURRENT_MODE_TYPE:
-                  case REACT_FRAGMENT_TYPE:
-                  case REACT_PROFILER_TYPE:
-                  case REACT_STRICT_MODE_TYPE:
-                  case REACT_SUSPENSE_TYPE:
-                    return type;
-                  default:
-                    var $$typeofType = type && type.$$typeof;
-                    switch ($$typeofType) {
-                      case REACT_CONTEXT_TYPE:
-                      case REACT_FORWARD_REF_TYPE:
-                      case REACT_LAZY_TYPE:
-                      case REACT_MEMO_TYPE:
-                      case REACT_PROVIDER_TYPE:
-                        return $$typeofType;
-                      default:
-                        return $$typeof;
-                    }
-                }
-              case REACT_PORTAL_TYPE:
-                return $$typeof;
-            }
-          }
-          return void 0;
-        }
-        var AsyncMode = REACT_ASYNC_MODE_TYPE;
-        var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-        var ContextConsumer = REACT_CONTEXT_TYPE;
-        var ContextProvider = REACT_PROVIDER_TYPE;
-        var Element = REACT_ELEMENT_TYPE;
-        var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment2 = REACT_FRAGMENT_TYPE;
-        var Lazy = REACT_LAZY_TYPE;
-        var Memo = REACT_MEMO_TYPE;
-        var Portal = REACT_PORTAL_TYPE;
-        var Profiler = REACT_PROFILER_TYPE;
-        var StrictMode = REACT_STRICT_MODE_TYPE;
-        var Suspense = REACT_SUSPENSE_TYPE;
-        var hasWarnedAboutDeprecatedIsAsyncMode = false;
-        function isAsyncMode(object2) {
-          {
-            if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-              hasWarnedAboutDeprecatedIsAsyncMode = true;
-              console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.");
-            }
-          }
-          return isConcurrentMode(object2) || typeOf(object2) === REACT_ASYNC_MODE_TYPE;
-        }
-        function isConcurrentMode(object2) {
-          return typeOf(object2) === REACT_CONCURRENT_MODE_TYPE;
-        }
-        function isContextConsumer(object2) {
-          return typeOf(object2) === REACT_CONTEXT_TYPE;
-        }
-        function isContextProvider(object2) {
-          return typeOf(object2) === REACT_PROVIDER_TYPE;
-        }
-        function isElement(object2) {
-          return typeof object2 === "object" && object2 !== null && object2.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        function isForwardRef(object2) {
-          return typeOf(object2) === REACT_FORWARD_REF_TYPE;
-        }
-        function isFragment(object2) {
-          return typeOf(object2) === REACT_FRAGMENT_TYPE;
-        }
-        function isLazy(object2) {
-          return typeOf(object2) === REACT_LAZY_TYPE;
-        }
-        function isMemo(object2) {
-          return typeOf(object2) === REACT_MEMO_TYPE;
-        }
-        function isPortal(object2) {
-          return typeOf(object2) === REACT_PORTAL_TYPE;
-        }
-        function isProfiler(object2) {
-          return typeOf(object2) === REACT_PROFILER_TYPE;
-        }
-        function isStrictMode(object2) {
-          return typeOf(object2) === REACT_STRICT_MODE_TYPE;
-        }
-        function isSuspense(object2) {
-          return typeOf(object2) === REACT_SUSPENSE_TYPE;
-        }
-        exports.AsyncMode = AsyncMode;
-        exports.ConcurrentMode = ConcurrentMode;
-        exports.ContextConsumer = ContextConsumer;
-        exports.ContextProvider = ContextProvider;
-        exports.Element = Element;
-        exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment2;
-        exports.Lazy = Lazy;
-        exports.Memo = Memo;
-        exports.Portal = Portal;
-        exports.Profiler = Profiler;
-        exports.StrictMode = StrictMode;
-        exports.Suspense = Suspense;
-        exports.isAsyncMode = isAsyncMode;
-        exports.isConcurrentMode = isConcurrentMode;
-        exports.isContextConsumer = isContextConsumer;
-        exports.isContextProvider = isContextProvider;
-        exports.isElement = isElement;
-        exports.isForwardRef = isForwardRef;
-        exports.isFragment = isFragment;
-        exports.isLazy = isLazy;
-        exports.isMemo = isMemo;
-        exports.isPortal = isPortal;
-        exports.isProfiler = isProfiler;
-        exports.isStrictMode = isStrictMode;
-        exports.isSuspense = isSuspense;
-        exports.isValidElementType = isValidElementType;
-        exports.typeOf = typeOf;
-      })();
-    }
-  });
-
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/react-is/index.js
-  var require_react_is2 = __commonJS((exports, module) => {
-    "use strict";
-    if (false) {
-      module.exports = null;
-    } else {
-      module.exports = require_react_is_development2();
-    }
-  });
-
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/object-assign/index.js
-  var require_object_assign3 = __commonJS((exports, module) => {
-    /*
-    object-assign
-    (c) Sindre Sorhus
-    @license MIT
-    */
-    "use strict";
-    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-    var hasOwnProperty3 = Object.prototype.hasOwnProperty;
-    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-    function toObject(val) {
-      if (val === null || val === void 0) {
-        throw new TypeError("Object.assign cannot be called with null or undefined");
-      }
-      return Object(val);
-    }
-    function shouldUseNative() {
-      try {
-        if (!Object.assign) {
-          return false;
-        }
-        var test1 = new String("abc");
-        test1[5] = "de";
-        if (Object.getOwnPropertyNames(test1)[0] === "5") {
-          return false;
-        }
-        var test2 = {};
-        for (var i2 = 0; i2 < 10; i2++) {
-          test2["_" + String.fromCharCode(i2)] = i2;
-        }
-        var order2 = Object.getOwnPropertyNames(test2).map(function(n2) {
-          return test2[n2];
-        });
-        if (order2.join("") !== "0123456789") {
-          return false;
-        }
-        var test3 = {};
-        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
-          test3[letter] = letter;
-        });
-        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
-          return false;
-        }
-        return true;
-      } catch (err) {
-        return false;
-      }
-    }
-    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
-      var from;
-      var to = toObject(target);
-      var symbols;
-      for (var s = 1; s < arguments.length; s++) {
-        from = Object(arguments[s]);
-        for (var key in from) {
-          if (hasOwnProperty3.call(from, key)) {
-            to[key] = from[key];
-          }
-        }
-        if (getOwnPropertySymbols) {
-          symbols = getOwnPropertySymbols(from);
-          for (var i2 = 0; i2 < symbols.length; i2++) {
-            if (propIsEnumerable.call(from, symbols[i2])) {
-              to[symbols[i2]] = from[symbols[i2]];
-            }
-          }
-        }
-      }
-      return to;
-    };
-  });
-
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/prop-types/lib/ReactPropTypesSecret.js
+  // ../../node_modules/.pnpm/prop-types@15.7.2/node_modules/prop-types/lib/ReactPropTypesSecret.js
   var require_ReactPropTypesSecret = __commonJS((exports, module) => {
     "use strict";
     var ReactPropTypesSecret = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";
     module.exports = ReactPropTypesSecret;
   });
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/prop-types/checkPropTypes.js
+  // ../../node_modules/.pnpm/prop-types@15.7.2/node_modules/prop-types/checkPropTypes.js
   var require_checkPropTypes = __commonJS((exports, module) => {
     "use strict";
     var printWarning = function() {
@@ -21280,11 +20964,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     module.exports = checkPropTypes;
   });
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/prop-types/factoryWithTypeCheckers.js
+  // ../../node_modules/.pnpm/prop-types@15.7.2/node_modules/prop-types/factoryWithTypeCheckers.js
   var require_factoryWithTypeCheckers = __commonJS((exports, module) => {
     "use strict";
-    var ReactIs = require_react_is2();
-    var assign2 = require_object_assign3();
+    var ReactIs = require_react_is();
+    var assign2 = require_object_assign();
     var ReactPropTypesSecret = require_ReactPropTypesSecret();
     var checkPropTypes = require_checkPropTypes();
     var has2 = Function.call.bind(Object.prototype.hasOwnProperty);
@@ -21691,10 +21375,10 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     };
   });
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/prop-types/index.js
+  // ../../node_modules/.pnpm/prop-types@15.7.2/node_modules/prop-types/index.js
   var require_prop_types = __commonJS((exports, module) => {
     if (true) {
-      ReactIs = require_react_is2();
+      ReactIs = require_react_is();
       throwOnDirectAccess = true;
       module.exports = require_factoryWithTypeCheckers()(ReactIs.isElement, throwOnDirectAccess);
     } else {
@@ -23716,7 +23400,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     return /* @__PURE__ */ jsx("div", null, itemList);
   };
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -23817,7 +23501,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/state-local/lib/es/state-local.js
+  // ../../node_modules/.pnpm/state-local@1.0.7/node_modules/state-local/lib/es/state-local.js
   function _defineProperty2(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -23988,7 +23672,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
   var state_local_default = index;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/config/index.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/config/index.js
   var config = {
     paths: {
       vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.21.2/min/vs"
@@ -23996,7 +23680,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
   var config_default = config;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/utils/curry.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/utils/curry.js
   function curry2(fn) {
     return function curried() {
       var _this = this;
@@ -24013,13 +23697,13 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   }
   var curry_default = curry2;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/utils/isObject.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/utils/isObject.js
   function isObject2(value) {
     return {}.toString.call(value).includes("Object");
   }
   var isObject_default = isObject2;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/validators/index.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/validators/index.js
   function validateConfig(config4) {
     if (!config4)
       errorHandler2("configIsRequired");
@@ -24053,7 +23737,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
   var validators_default = validators2;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/utils/compose.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/utils/compose.js
   var compose2 = function compose3() {
     for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
       fns[_key] = arguments[_key];
@@ -24066,7 +23750,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
   var compose_default = compose2;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/utils/deepMerge.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/utils/deepMerge.js
   function merge2(target, source) {
     Object.keys(source).forEach(function(key) {
       if (source[key] instanceof Object) {
@@ -24079,7 +23763,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   }
   var deepMerge_default = merge2;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/utils/makeCancelable.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/utils/makeCancelable.js
   var CANCELATION_MESSAGE = {
     type: "cancelation",
     msg: "operation is manually canceled"
@@ -24098,7 +23782,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   }
   var makeCancelable_default = makeCancelable;
 
-  // ../../node_modules/.pnpm/@monaco-editor/react@4.0.9_react-dom@17.0.1+react@17.0.1/node_modules/@monaco-editor/react/node_modules/@monaco-editor/loader/lib/es/loader/index.js
+  // ../../node_modules/.pnpm/@monaco-editor/loader@1.0.0/node_modules/@monaco-editor/loader/lib/es/loader/index.js
   var _state$create = state_local_default.create({
     config: config_default,
     isInitialized: false,

@@ -37,13 +37,12 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "rebass": "^4.0.7",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "^2.0.3",
+    "@neo-tools/raw": "*"
   },
   "dependencies": {
     "@types/minimist": "^1.2.1",
     "codemirror": "^5.59.2",
-    "esbuild": "^0.8.46",
-    "esbuild-register": "^2.0.0",
     "minimist": "^1.2.5",
     "react-error-boundary": "^3.1.0",
     "react-split": "^2.0.9"
