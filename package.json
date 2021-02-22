@@ -33,6 +33,7 @@
     "@typescript-eslint/parser": "^4.13.0",
     "ava": "^3.15.0",
     "esbuild": "0.8.45",
+    "esbuild-wasm": "0.8.45",
     "esbuild-register": "^1.2.1",
     "eslint": "^7.17.0",
     "husky": "^4.3.7",

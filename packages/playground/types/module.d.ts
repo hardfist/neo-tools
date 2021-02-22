@@ -17,3 +17,13 @@ declare module 'raw:.*' {
   const result: string;
   export default result;
 }
+
+declare module 'glob:*' {
+  const result: Record<string, string>;
+  export default result;
+}
+
+declare module '*.html' {
+  const result: string;
+  export default result;
+}
