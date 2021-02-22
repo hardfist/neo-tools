@@ -9,18 +9,11 @@ import { toJS, makeAutoObservable, autorun, reaction, action } from 'mobx';
 import { observer, useLocalStore } from 'mobx-react-lite';
 import path from 'path-browserify';
 import { ListItem } from '../components/list';
-import _mainjs from 'raw:../examples/main.tsx';
-import _lib from 'raw:../examples/lib.ts';
-import _style from 'raw:../examples/style.css?';
-import html from 'raw:../examples/index.html';
+import html from '../examples/index.html';
+import examples from 'glob:../examples/**/*';
 
 import '../utils/worker';
-console.log('style:', _style);
-const initialFiles = {
-  'main.tsx': _mainjs,
-  'lib.tsx': _lib,
-  'style.css': _style,
-};
+const initialFiles = examples;
 type CompileResultType = '.js' | '.css' | '.result';
 let compiler: Compiler | null = null;
 const playground = makeAutoObservable({

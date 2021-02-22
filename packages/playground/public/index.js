@@ -44860,16 +44860,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   // src/pages/playground.tsx
   var import_path_browserify = __toModule(require_path_browserify2());
 
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/main.tsx
-  var main_default = "import { answer } from './lib';\nimport React, { useEffect } from 'react';\nimport { useState } from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount((x) => x + 1);\n    }, 1000);\n  }, []);\n  return <div>count: {count}</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
-
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/lib.ts
-  var lib_default = "export const answer = 42;\n";
-
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/style.css?
-  var style_default = "text {\n  color: red;\n}\n";
-
-  // _raw:/Users/admin/github/neo/packages/playground/src/examples/index.html
+  // src/examples/index.html
   var examples_default = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44892,6 +44883,33 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
 </html>
 `;
 
+  // glob:/Users/admin/github/neo/packages/playground/src/examples/**/*
+  var index_html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">loading....</div>
+    <script>
+      window.addEventListener('message', (e) => {
+        const { code } = e.data;
+        if (code) {
+          eval(code);
+        }
+      });
+    </script>
+  </body>
+</html>
+`;
+  var main_tsx = "import { answer } from './lib';\nimport React, { useEffect } from 'react';\nimport { useState } from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount((x) => x + 1);\n    }, 1000);\n  }, []);\n  return <div>count: {count}</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
+  var lib_ts = "export const answer = 42;\n";
+  var style_css = "text {\n  color: red;\n}\n";
+  var __default = {"index.html": index_html, "main.tsx": main_tsx, "lib.ts": lib_ts, "style.css": style_css};
+
   // worker:/Users/admin/github/neo/packages/playground/src/worker/add.ts
   var blob = new Blob(['// src/worker/add.ts\nself.addEventListener("message", (event) => {\n  const [a, b] = event.data;\n  self.postMessage(a + b);\n});\n'], {type: "text/javascript"});
   var add_default = () => {
@@ -44913,12 +44931,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   };
 
   // src/pages/playground.tsx
-  console.log("style:", style_default);
-  var initialFiles = {
-    "main.tsx": main_default,
-    "lib.tsx": lib_default,
-    "style.css": style_default
-  };
+  var initialFiles = __default;
   var compiler = null;
   var playground = makeAutoObservable({
     files: initialFiles,
