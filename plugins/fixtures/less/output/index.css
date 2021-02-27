@@ -1,0 +1,4 @@
+/* plugins/fixtures/less/index.less */
+.root .container {
+  color: red;
+}

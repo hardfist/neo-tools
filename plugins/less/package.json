@@ -1,0 +1,6 @@
+{
+	"devDependencies": {
+		"@types/less": "^3.0.2",
+		"less": "^4.1.1"
+	}
+}

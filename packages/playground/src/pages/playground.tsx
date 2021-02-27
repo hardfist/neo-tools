@@ -12,7 +12,6 @@ import { ListItem } from '../components/list';
 import html from '../examples/index.html';
 import examples from 'glob:../examples/**/*';
 
-import '../utils/worker';
 const initialFiles = examples;
 type CompileResultType = '.js' | '.css' | '.result';
 let compiler: Compiler | null = null;
