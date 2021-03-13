@@ -11,7 +11,8 @@ async function main() {
   const argv = minimist(process.argv.slice(2));
   const outdir = path.join(__dirname, '../public');
   process.env.NODE_ENV = 'development';
-  esbuild.build({
+  console.time('build');
+  await esbuild.build({
     entryPoints: [path.join(__dirname, '../src/index.tsx')],
     outdir,
     watch: argv.watch,
@@ -30,8 +31,9 @@ async function main() {
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
-    plugins: [pluginPostcss(), pluginFn(), pluginWorker(), pluginRaw(), pluginGlob()],
+    plugins: [pluginGlob()],
   });
+  console.timeEnd('build');
   if (argv.watch) {
     liveServer.start({
       // Opens the local server on start.

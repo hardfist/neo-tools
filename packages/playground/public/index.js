@@ -26459,11 +26459,11 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
     function validateServiceOptions(options) {
       let keys2 = Object.create(null);
       let wasmURL = getFlag(options, keys2, "wasmURL", mustBeString);
-      let worker2 = getFlag(options, keys2, "worker", mustBeBoolean);
+      let worker = getFlag(options, keys2, "worker", mustBeBoolean);
       checkForInvalidFlags(options, keys2, "in startService() call");
       return {
         wasmURL,
-        worker: worker2
+        worker
       };
     }
     function pushLogFlags(flags, options, keys2, isTTY, logLevelDefault) {
@@ -28148,25 +28148,25 @@ onmessage = ({data: wasm}) => {
   go.argv = ["", \`--service=\${"0.8.42"}\`];
   WebAssembly.instantiate(wasm, go.importObject).then(({instance}) => go.run(instance));
 };}`;
-      let worker2;
+      let worker;
       if (useWorker) {
-        let blob2 = new Blob([code], {type: "application/javascript"});
-        worker2 = new Worker(URL.createObjectURL(blob2));
+        let blob = new Blob([code], {type: "application/javascript"});
+        worker = new Worker(URL.createObjectURL(blob));
       } else {
         let fn = new Function("postMessage", code + `var onmessage; return m => onmessage(m)`);
-        let onmessage = fn((data) => worker2.onmessage({data}));
-        worker2 = {
+        let onmessage = fn((data) => worker.onmessage({data}));
+        worker = {
           onmessage: null,
           postMessage: (data) => onmessage({data}),
           terminate() {
           }
         };
       }
-      worker2.postMessage(wasm);
-      worker2.onmessage = ({data}) => readFromStdout(data);
+      worker.postMessage(wasm);
+      worker.onmessage = ({data}) => readFromStdout(data);
       let {readFromStdout, afterClose, service} = createChannel({
         writeToStdin(bytes) {
-          worker2.postMessage(bytes);
+          worker.postMessage(bytes);
         },
         isSync: false,
         isBrowser: true
@@ -28194,7 +28194,7 @@ onmessage = ({data: wasm}) => {
           throw new Error(`The "transformSync" API only works in node`);
         },
         stop() {
-          worker2.terminate();
+          worker.terminate();
           afterClose();
         }
       };
@@ -44883,7 +44883,10 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
 </html>
 `;
 
-  // glob:/Users/admin/github/neo/packages/playground/src/examples/**/*
+  // glob:/Users/yj/github/neo-tools/packages/playground/src/examples/**/*
+  var main_tsx = "import { answer } from './lib';\nimport React, { useEffect } from 'react';\nimport { useState } from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount((x) => x + 1);\n    }, 1000);\n  }, []);\n  return <div>count: {count}</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
+  var style_css = "text {\n  color: red;\n}\n";
+  var lib_ts = "export const answer = 42;\n";
   var index_html = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44905,30 +44908,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
   </body>
 </html>
 `;
-  var main_tsx = "import { answer } from './lib';\nimport React, { useEffect } from 'react';\nimport { useState } from 'react';\nimport ReactDOM from 'react-dom';\nconst App = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount((x) => x + 1);\n    }, 1000);\n  }, []);\n  return <div>count: {count}</div>;\n};\nReactDOM.render(<App />, document.getElementById('root'));\n";
-  var lib_ts = "export const answer = 42;\n";
-  var style_css = "text {\n  color: red;\n}\n";
-  var __default = {"index.html": index_html, "main.tsx": main_tsx, "lib.ts": lib_ts, "style.css": style_css};
-
-  // worker:/Users/admin/github/neo/packages/playground/src/worker/add.ts
-  var blob = new Blob(['// src/worker/add.ts\nself.addEventListener("message", (event) => {\n  const [a, b] = event.data;\n  self.postMessage(a + b);\n});\n'], {type: "text/javascript"});
-  var add_default = () => {
-    const worker2 = new Worker(window.URL.createObjectURL(blob));
-    return worker2;
-  };
-
-  // fn:/Users/admin/github/neo/packages/playground/src/worker/fib.ts
-  var fib_default = 13;
-
-  // src/utils/fn.ts
-  console.log("fib5:", fib_default);
-
-  // src/utils/worker.ts
-  var worker = add_default();
-  worker.postMessage([2, 3]);
-  worker.onmessage = (evt) => {
-    console.log("sum result:", evt.data);
-  };
+  var __default = {"main.tsx": main_tsx, "style.css": style_css, "lib.ts": lib_ts, "index.html": index_html};
 
   // src/pages/playground.tsx
   var initialFiles = __default;
